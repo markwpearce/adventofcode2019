@@ -24,14 +24,14 @@ if (!program.puzzle) {
 vlog(`Using input file ${program.input}`);
 
 const lines = [];
-const puzzle = new(require("./days/" + program.puzzle).puzzle)();
+const puzzle = new (require("./days/" + program.puzzle).puzzle)();
 
 const rl = readline.createInterface({
   input: fs.createReadStream(program.input)
 });
 
 let currentLineNumber = 0;
-rl.on("line", function(line) {
+rl.on("line", function (line) {
   if (line.trim() === "") {
     // ignore whitespace lines
     return;
@@ -48,7 +48,7 @@ rl.on("line", function(line) {
 
 });
 
-rl.on("close", function() {
+rl.on("close", function () {
   let result;
   try {
     result = puzzle.run(lines);

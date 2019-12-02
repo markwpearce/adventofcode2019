@@ -2,7 +2,7 @@ class Day {
 
   getOption(defaultVal, mapFunc) {
     let option = defaultVal;
-    mapFunc = mapFunc || function(x) { return x };
+    mapFunc = mapFunc || function (x) { return x };
     try {
       option = program.argument ? mapFunc(program.argument) : defaultVal;
     } catch (e) {

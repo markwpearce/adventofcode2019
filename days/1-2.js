@@ -1,21 +1,27 @@
-const NumberDay = require("./day").NumberDay;
+const Puzzle1_1 = require("./1-1").puzzle;
+const vlog = require("../util/vlog");
 
-class Puzzle1_2 extends NumberDay {
+class Puzzle1_2 extends Puzzle1_1 {
+
+  totalFuelForModule(moduleMass) {
+    const fuelForModule = this.fuelRequired(moduleMass);
+    const fuelForFuel = [];
+    let fuelForLastFuel = this.fuelRequired(fuelForModule);
+    while (fuelForLastFuel > 0) {
+      fuelForFuel.push(fuelForLastFuel);
+      fuelForLastFuel = this.fuelRequired(fuelForLastFuel);
+    };
+    const totalFuelForModule = fuelForModule + fuelForFuel.reduce((total, current) => total + current, 0);
+    vlog('Fuel for module', moduleMass, '-', totalFuelForModule);
+    return totalFuelForModule;
+  }
 
   run(numbers) {
-    const frequencies = {};
-    let foundDupe = false;
-    let firstDupe = -9999;
-    let frequency = 0;
-    while (!foundDupe) {
-      for (let i = 0; i < numbers.length && !foundDupe; i++) {
-        frequency += numbers[i];
-        foundDupe = (frequencies[frequency]);
-        frequencies[frequency] = 1;
-        firstDupe = frequency;
-      }
-    }
-    return firstDupe;
+    const totalFuelAllModules = numbers.reduce((total, moduleMass) => {
+      return total + this.totalFuelForModule(moduleMass);
+    }, 0);
+
+    return totalFuelAllModules;
   }
 }
 
