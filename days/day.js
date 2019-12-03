@@ -38,4 +38,16 @@ class LetterDay {
   }
 }
 
-module.exports = { Day, NumberDay, LetterDay };
+class CSVDay {
+  parseLine(line) {
+    return line.split(',');
+  }
+}
+
+class CSVNumberDay {
+  parseLine(line) {
+    return line.split(',').map(numString => parseInt(numString, 10));
+  }
+}
+
+module.exports = { Day, NumberDay, LetterDay, CSVDay, CSVNumberDay };
