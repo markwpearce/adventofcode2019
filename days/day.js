@@ -11,8 +11,21 @@ class Day {
     return option;
   }
 
-  getOptionAsNumber(defaultVal) {
+  getOptionAsInt(defaultVal) {
     return this.getOption(defaultVal, (x) => parseInt(x, 10));
+  }
+
+  /**
+   * E.g. input looks like "123-236", will return [123, 256]
+   *
+   * @param {*} defaultVal
+   * @returns
+   * @memberof Day
+   */
+  getOptionAsIntRange(defaultVal) {
+    return this.getOption(defaultVal, (x) =>
+      x.split('-').map(num => parseInt(num, 10)).slice(0, 2)
+    );
   }
 
   parseLine(line) {
@@ -20,34 +33,40 @@ class Day {
   }
 
   run(linesArray) {
-    return undefined;
+    throw new Error('No puzzle run() function defined')
   }
 
 }
 
-class NumberDay {
+class NumberDay extends Day {
   parseLine(line) {
     return parseInt(line, 10);
   }
 }
 
 
-class LetterDay {
+class LetterDay extends Day {
   parseLine(line) {
     return line.split("");
   }
 }
 
-class CSVDay {
+class CSVDay extends Day {
   parseLine(line) {
     return line.split(',');
   }
 }
 
-class CSVNumberDay {
+class CSVNumberDay extends Day {
   parseLine(line) {
     return line.split(',').map(numString => parseInt(numString, 10));
   }
 }
 
-module.exports = { Day, NumberDay, LetterDay, CSVDay, CSVNumberDay };
+class NoInputDay extends Day {
+  parseLine(_line) {
+    throw new Error('This puzzle does not require input parsing')
+  }
+}
+
+module.exports = { Day, NumberDay, LetterDay, CSVDay, CSVNumberDay, NoInputDay };
