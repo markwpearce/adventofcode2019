@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^2.19.0",
-    "esm": "^3.2.25"
+    "esm": "^3.2.25",
+    "line-intersect": "^2.2.3"
   }
 }
