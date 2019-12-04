@@ -11,8 +11,8 @@ program
   .option('-a, --argument [arg]', 'Extra argument specific to Puzzle')
   .parse(process.argv);
 
-if (!program.input) {
-  console.error("Input file is required");
+if (!program.input && !program.argument) {
+  console.error("Input file or argument is required");
   process.exit();
 }
 
@@ -21,17 +21,31 @@ if (!program.puzzle) {
   process.exit();
 }
 
-vlog(`Using input file ${program.input}`);
+if (program.input) {
+  vlog(`Using input file ${program.input}`);
+}
+if (program.argument) {
+  vlog(`Using argument ${program.argument}`);
+}
+
+let currentLineNumber = 0;
 
 const lines = [];
 const puzzle = new (require("./days/" + program.puzzle).puzzle)();
 
-const rl = readline.createInterface({
-  input: fs.createReadStream(program.input)
-});
+function startTiming() {
+  return process.hrtime()
+}
+function endTiming(hrStart) {
+  const hrEnd = process.hrtime(hrStart);
+  const seconds = hrEnd[0];
+  const ms = Math.round(hrEnd[1] / 10000) / 100;
+  vlog(`Execution Time: ${seconds}s ${ms}ms`);
+}
 
-let currentLineNumber = 0;
-rl.on("line", function (line) {
+
+
+function parseInput(line) {
   if (line.trim() === "") {
     // ignore whitespace lines
     return;
@@ -45,17 +59,34 @@ rl.on("line", function (line) {
     console.log(`Error parsing line ${currentLineNumber} (${line}): ${e}`);
     process.exit();
   }
+}
 
-});
-
-rl.on("close", function () {
+function runPuzzle() {
   let result;
+  const startTime = startTiming();
   try {
     result = puzzle.run(lines);
   } catch (e) {
+    endTiming(startTime);
     console.log(`Error running puzzle solution: ${e}`);
     process.exit();
   }
+  endTiming(startTime);
+
   vlog("Result:");
   console.log(result);
-});
+}
+
+if (program.input) {
+  const rl = readline.createInterface({
+    input: fs.createReadStream(program.input)
+  });
+
+  rl.on("line", line => parseInput(line));
+
+  rl.on("close", () => runPuzzle());
+}
+else {
+  runPuzzle();
+}
+
