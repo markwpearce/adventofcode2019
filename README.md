@@ -19,6 +19,7 @@ Options:
   -p, --puzzle [puzzlename]  choose what puzzle to load (e.g. 1-1, or 13-2)
   -v, --verbose              Verbose mode on
   -a, --argument [arg]       Extra argument specific to Puzzle
+  -t, --timing               Display execution time
   -h, --help                 output usage information
 
 
