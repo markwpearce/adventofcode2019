@@ -9,6 +9,7 @@ program
   .option('-p, --puzzle [puzzlename]', 'choose what puzzle to load (e.g. 1-1, or 13-2)')
   .option('-v, --verbose', 'Verbose mode on')
   .option('-a, --argument [arg]', 'Extra argument specific to Puzzle')
+  .option('-t, --timing', 'Display execution time')
   .parse(process.argv);
 
 if (!program.input && !program.argument) {
@@ -40,7 +41,10 @@ function endTiming(hrStart) {
   const hrEnd = process.hrtime(hrStart);
   const seconds = hrEnd[0];
   const ms = Math.round(hrEnd[1] / 10000) / 100;
-  vlog(`Execution Time: ${seconds}s ${ms}ms`);
+  if (program.verbose || program.timing) {
+    console.log(`Execution Time: ${seconds}s ${ms}ms`);
+  }
+
 }
 
 
