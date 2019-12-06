@@ -28,6 +28,13 @@ class Day {
     );
   }
 
+
+  getOptionAsIntArray(defaultVal) {
+    return this.getOption(defaultVal, (x) =>
+      x.split(',').map(num => parseInt(num, 10))
+    );
+  }
+
   parseLine(line) {
     return line;
   }
