@@ -3,6 +3,14 @@ const vlog = require("../util/vlog");
 
 class Puzzle2_2 extends Puzzle2_1 {
 
+
+  constructor() {
+    super();
+    this.noun = 0;
+    this.verb = 0;
+    this.resetArgs();
+  }
+
   resetArgs() {
     this.noun = 0;
     this.verb = 0;
@@ -36,7 +44,8 @@ class Puzzle2_2 extends Puzzle2_1 {
     return lines.map((instructions, line) => {
       vlog(`Instructions: ${instructions}`);
       while (true) {
-        const result = this.runProgram(instructions);
+        const modifiedInstructions = this.setArgsInCode(instructions, 1);
+        const result = this.runProgram(modifiedInstructions);
         vlog(`program ${line} result = ${result}`)
         if (result === target) {
           vlog(`Found at ${this.getArgs()}`)
